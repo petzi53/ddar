@@ -1,4 +1,13 @@
-delete_merged_file: true
+rmd_files:
+    - "index.Rmd"
+    - "01-intro.Rmd"
+    - "02-categorical-data.Rmd"
+    - "03-fit-and-visualize.Rmd"
+    - "97-references.Rmd"
 language:
-  ui:
-    chapter_name: "Chapter "
+  label:
+    fig: "Figure "
+    tab: "Table "
+book_filename: "_main.Rmd"
+delete_merged_file: true
+new_session: yes

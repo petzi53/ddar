@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 Introduction | Discrete Data Analysis with R</title>
+  <meta name="description" content="These are my excerpts and personal notes on the textbook “Discrete Data Analysis with R” by Michael Friendly and David Meyer." />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 Introduction | Discrete Data Analysis with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="These are my excerpts and personal notes on the textbook “Discrete Data Analysis with R” by Michael Friendly and David Meyer." />
+  <meta name="github-repo" content="petzi53/ddar" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 Introduction | Discrete Data Analysis with R" />
+  
+  <meta name="twitter:description" content="These are my excerpts and personal notes on the textbook “Discrete Data Analysis with R” by Michael Friendly and David Meyer." />
+  
+
+<meta name="author" content="Peter Baumgartner" />
+
+
+<meta name="date" content="2022-02-08" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="working-with-categorical-data.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+<link rel="stylesheet" href="css/boxes.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Categorical Data Analysis with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a></li>
+<li class="chapter" data-level="2" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="introduction.html"><a href="introduction.html#overview"><i class="fa fa-check"></i><b>2.1</b> Overview</a></li>
+<li class="chapter" data-level="2.2" data-path="introduction.html"><a href="introduction.html#what-is-categorical-data"><i class="fa fa-check"></i><b>2.2</b> What is categorical data?</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="introduction.html"><a href="introduction.html#case-vs.-frequency-form"><i class="fa fa-check"></i><b>2.2.1</b> Case vs. frequency form</a></li>
+<li class="chapter" data-level="2.2.2" data-path="introduction.html"><a href="introduction.html#univariate-bivariate-and-multivariate-data"><i class="fa fa-check"></i><b>2.2.2</b> Univariate, bivariate, and multivariate data</a></li>
+<li class="chapter" data-level="2.2.3" data-path="introduction.html"><a href="introduction.html#explanatory-vs.-response-variables"><i class="fa fa-check"></i><b>2.2.3</b> Explanatory vs. response variables</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="introduction.html"><a href="introduction.html#data-analysis-strategies"><i class="fa fa-check"></i><b>2.3</b> Data analysis strategies</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="introduction.html"><a href="introduction.html#hypothesis-testing-approaches"><i class="fa fa-check"></i><b>2.3.1</b> Hypothesis testing approaches</a></li>
+<li class="chapter" data-level="2.3.2" data-path="introduction.html"><a href="introduction.html#model-building-approaches"><i class="fa fa-check"></i><b>2.3.2</b> Model building approaches</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="introduction.html"><a href="introduction.html#graphical-methods"><i class="fa fa-check"></i><b>2.4</b> Graphical methods</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="introduction.html"><a href="introduction.html#visualization-recommendations"><i class="fa fa-check"></i><b>2.4.1</b> Visualization recommendations</a></li>
+<li class="chapter" data-level="2.4.2" data-path="introduction.html"><a href="introduction.html#recommended-packages"><i class="fa fa-check"></i><b>2.4.2</b> Recommended Packages</a></li>
+<li class="chapter" data-level="2.4.3" data-path="introduction.html"><a href="introduction.html#data-und-models-plot"><i class="fa fa-check"></i><b>2.4.3</b> Data und models plot</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="introduction.html"><a href="introduction.html#the-80-20-rule"><i class="fa fa-check"></i><b>2.5</b> The 80-20-rule</a></li>
+<li class="chapter" data-level="2.6" data-path="introduction.html"><a href="introduction.html#visualization-of-distributions"><i class="fa fa-check"></i><b>2.6</b> Visualization of distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="working-with-categorical-data.html"><a href="working-with-categorical-data.html"><i class="fa fa-check"></i><b>3</b> Working with categorical data</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="working-with-categorical-data.html"><a href="working-with-categorical-data.html#introduction-1"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="working-with-categorical-data.html"><a href="working-with-categorical-data.html#forms-of-categorical-data"><i class="fa fa-check"></i><b>3.2</b> Forms of categorical data</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="working-with-categorical-data.html"><a href="working-with-categorical-data.html#using-tabulizer"><i class="fa fa-check"></i><b>3.2.1</b> Using tabulizer</a></li>
+<li class="chapter" data-level="3.2.2" data-path="working-with-categorical-data.html"><a href="working-with-categorical-data.html#generating-tables"><i class="fa fa-check"></i><b>3.2.2</b> Generating tables</a></li>
+<li class="chapter" data-level="3.2.3" data-path="working-with-categorical-data.html"><a href="working-with-categorical-data.html#printing-tables"><i class="fa fa-check"></i><b>3.2.3</b> Printing tables</a></li>
+<li class="chapter" data-level="3.2.4" data-path="working-with-categorical-data.html"><a href="working-with-categorical-data.html#collapsing-tables"><i class="fa fa-check"></i><b>3.2.4</b> Collapsing tables</a></li>
+<li class="chapter" data-level="3.2.5" data-path="working-with-categorical-data.html"><a href="working-with-categorical-data.html#converting-tables"><i class="fa fa-check"></i><b>3.2.5</b> Converting tables</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="working-with-categorical-data.html"><a href="working-with-categorical-data.html#a-complex-example"><i class="fa fa-check"></i><b>3.3</b> A complex example</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="still-to-do.html"><a href="still-to-do.html"><i class="fa fa-check"></i><b>4</b> Still to do</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Discrete Data Analysis with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="introduction" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Introduction</h1>
+<div class="greybox">
+<p>Friendly, M., &amp; Meyer, D. (2015). Discrete Data Analysis with R:
+Visualization and Modeling Techniques for Categorical and Count Data
+(1st ed.). Chapman and Hall/CRC.</p>
+<p>Short name (abbreviation): <strong>DDAR</strong></p>
+</div>
+<div id="overview" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Overview</h2>
+<p>“Discrete Data Analysis with R” <span class="citation">(<a href="#ref-Friendly_Meyer_2015" role="doc-biblioref">Friendly and Meyer 2015</a>)</span>
+has at its strength the interplay between analysis and visualization strategies for categorical
+data. The authors drive the conviction that data analysis and
+statistical graphics should go hand-in-hand in the process of
+understanding and communicating statistical data. The book features the
+well-known <strong>{vcd}</strong> package (Visualizing Categorical Data), and the books
+support package <strong>{vcdExtra}</strong> (‘vcd’ Extensions and Additions), which
+provides additional data sets and methods. Both packages come with large
+tutorial vignettes explaining the usage. See for instance:</p>
+<ul>
+<li>Working with categorical data with R and the vcd and vcdExtra
+packages:
+<a href="https://cran.r-project.org/web/packages/vcdExtra/vignettes/vcd-tutorial.pdf">37 pages</a></li>
+<li>The Strucplot Framework: Visualizing Multi-way Contingency Tables with vcd: <a href="https://cran.r-project.org/web/packages/vcd/vignettes/strucplot.pdf">48 pages</a></li>
+</ul>
+<p>The book divides statistical methods for data analysis into two different
+categories:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Randomized-based methods</strong>: Pearson chi-squared <span class="math inline">\(X^2\)</span> test,
+Fisher’s exact test, and Cochran–Mantel–Haenszel tests (Chapter
+3-6) and</li>
+<li><strong>Model-based methods</strong>: Logistic regression, loglinear, and
+generalized linear models (Chapter 7-9).</li>
+</ol>
+</div>
+<div id="what-is-categorical-data" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> What is categorical data?</h2>
+<p>Categorical variables differ in</p>
+<ol style="list-style-type: decimal">
+<li>the number of categories:</li>
+</ol>
+<ul>
+<li><strong>binary variables</strong> (or <strong>dichotomous variables</strong>) such as
+<code>Gender</code>: “Male,” “Female”</li>
+<li><strong>multilevel variables</strong>, variables with more than two categories
+(called <strong>polytomous variables</strong>), e.g., <code>Fielding position</code> (in
+baseball), with categories “Pitcher,” “Catcher,” “1st base,” “2nd
+base,” …, “Left field.”</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>their relation:</li>
+</ol>
+<ul>
+<li><strong>ordered categories</strong>: e.g., <code>Treatment outcome</code>: “No improvement,”
+“Some improvement,” “Marked improvement.”</li>
+<li><strong>nominal categories</strong>: e.g., <code>Marital Status</code>: “Never married,”
+“Married,” “Separated,” “Divorced,” “Widowed.”</li>
+</ul>
+<p>Often, we can rank some variable under a specific point of view. For instance, we could arrange the variable <code>side effect</code> in a
+pharmacological study according to the seriousness of the side effects or
+<code>party preference</code> according to the number of party voters in the last
+election. But these kinds of classifications are somewhat arbitrary.</p>
+<div class="infobox">
+<p>An ordinal variable should be defined as one whose categories are unambiguously ordered along a single underlying dimension.</p>
+</div>
+<p>Examples are levels of education, for instance the nine levels of the <a href="http://uis.unesco.org/sites/default/files/documents/international-standard-classification-of-education-isced-2011-en.pdf">International Standard Classification of Education</a> (ISCED): early childhood education (level 0); primary education (level 1); lower secondary education (level 2); upper secondary education (level 3); postsecondary non-tertiary education (level 4); short-cycle tertiary education (level 5); bachelor’s or equivalent level (level 6); master’s or equivalent level (level 7); doctor or equivalent level (level 8) or the <a href="https://en.wikipedia.org/wiki/Likert_scale">Likert scale</a> in survey questions (“strongly agree,” “agree,” “neutral,” “disagree,” “strongly disagree.”).</p>
+<div id="case-vs.-frequency-form" class="section level3" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Case vs. frequency form</h3>
+<p>In many circumstances, data is recorded on each individual or
+experimental unit. Data in this form is called case data, or data in
+<strong>case form</strong>. Data in <strong>frequency form</strong>, by contrast, has already been
+tabulated by counting over the categories of the table variables.</p>
+<p>If observations are recorded from operationally independent experimental
+units or individuals, typically a sample from some population, this
+tabulated data may be called <strong>frequency data</strong>. However, suppose several
+events or variables are observed for the same units or individuals. Those events are not operationally independent, and it is helpful to use
+the term <strong>count data</strong> in this situation. These terms are by no means standard, but the distinction is often essential, particularly in statistical models for categorical data.</p>
+<p>For example, in a tabulation of the number of male children within families, the number of male children in a given family would be a <strong>count variable</strong>, taking values 0, 1, 2, …. The number of independent families with a given number of male children is a <strong>frequency variable</strong>. Count data also arise when we tabulate a sequence of events over time or under different circumstances in a number of individuals.</p>
+</div>
+<div id="univariate-bivariate-and-multivariate-data" class="section level3" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Univariate, bivariate, and multivariate data</h3>
+<p>Another distinction concerns the number of variables: one, two, or (potentially) many shown in a data set or table or used in some analysis.</p>
+<p>Most statistical models distinguish between response variables (or dependent or criterion variables) and explanatory variables (or independent or predictor variables).</p>
+</div>
+<div id="explanatory-vs.-response-variables" class="section level3" number="2.2.3">
+<h3><span class="header-section-number">2.2.3</span> Explanatory vs. response variables</h3>
+<ul>
+<li><strong>Response Variable</strong> (also dependent or criterion variable) is
+<ul>
+<li>either the treatment outcome (primarily quantitative), e.g., mean -&gt; normal distribution</li>
+<li>or variable of primary interest (e.g., educational achievement level predicted from socioeconomic status)</li>
+<li>In the classical models, the response variable (“treatment outcome,” for example) must be considered quantitative. The model attempts to describe how the mean of the distribution of responses changes with the values or levels of the explanatory variables, such as age or gender.
+However, when the response variable is categorical, the standard linear models do not apply because they assume a normal (Gaussian) distribution for the model residuals.</li>
+</ul></li>
+<li><strong>Explanatory Variable</strong> (independent or predictor variable)
+<ul>
+<li>experimentally manipulated, e.g., the treatment group each person is assigned to</li>
+<li>or not manipulated (e.g., socioeconomic status), but used to predict another variable</li>
+</ul></li>
+</ul>
+<div class="infobox">
+<p>Hence, a categorical response variable generally requires analysis using methods for categorical data, but categorical explanatory variables may be readily handled by either method.</p>
+</div>
+</div>
+</div>
+<div id="data-analysis-strategies" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Data analysis strategies</h2>
+<div id="hypothesis-testing-approaches" class="section level3" number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> Hypothesis testing approaches</h3>
+<p>Many studies raise questions concerning hypotheses about the association between variables, a more general idea than that of correlation (linear association) for quantitative variables. If a non-zero association exists, we may wish to characterize the strength of the association numerically and understand the pattern or nature of the association.</p>
+<p><strong>Examples for Questions</strong>:</p>
+<ul>
+<li>“Is there evidence of gender bias in admission to graduate school?” Another way to frame this:</li>
+<li>“Are males more likely to be admitted?”</li>
+</ul>
+<p>Questions involving tests of such hypotheses are answered most easily using a large variety of specific statistical tests, often based on randomization arguments. These include</p>
+<ul>
+<li>the familiar Pearson chi-squared test for two-way tables,</li>
+<li>the Cochran–Mantel–Haenszel test statistics,</li>
+<li>Fisher’s exact test,</li>
+<li>and a wide range of measures of strength of association.</li>
+</ul>
+<p>The hypothesis testing approach is illustrated in Chapters 4–6 of DDAR, though the emphasis is on graphical methods that help us understand the nature of the association between variables.</p>
+<p><strong>Illustration of hypothesis testing</strong></p>
+<p>The approach is demonstrated with the <code>HairEyeColor</code> from the base R <strong>{datasets}</strong> package.</p>
+<p>As a graphical tool, it uses</p>
+<ul>
+<li>mosaic display <code>mosaicplot()</code> from the base R <strong>{graphics}</strong> package. (see Chapter 5 of DDAR) and</li>
+<li>correspondence analysis plot ca() from the <strong>{ca}</strong> package (see Chapter 6 of DDAR)</li>
+</ul>
+<p>For the test calculation, it uses</p>
+<ul>
+<li><code>chisq.test()</code> from the base R <strong>{stats}</strong> package and</li>
+<li><code>assocstats()</code> from the <strong>{vcd}</strong> package.</li>
+</ul>
+<div class="todobox">
+<p>I do not know how to apply these tools. I will postpone my reading until chapters 5 and 6.</p>
+</div>
+</div>
+<div id="model-building-approaches" class="section level3" number="2.3.2">
+<h3><span class="header-section-number">2.3.2</span> Model building approaches</h3>
+<p>Model-based methods provide tests of equivalent hypotheses about associations but offer additional advantages (at the cost of additional assumptions) not provided by the simpler hypotheses-testing approaches. Among these advantages, model-based methods provide estimates, standard errors, and confidence intervals for parameters and obtain predicted (fitted/expected) values with associated precision measures.</p>
+<p><strong>Illustration of model building</strong></p>
+<p>The book presents for demonstration logistic regression of dichotomous response variables. It illustrates the approach with two important real-world examples:</p>
+<ul>
+<li>Space shuttle disaster: dataset <code>SpaceShuttle</code> from <strong>{vcd}</strong>.</li>
+<li>Survivals of the Donner party (1846/47 Sierra Nevada): dataset <code>Donner</code> from <strong>{vcdExtra}</strong>.</li>
+</ul>
+<div class="todobox">
+<p>Again I do not understand fully how the model building is done. I am looking forward to reading chapter 7 of DDAR.</p>
+</div>
+</div>
+</div>
+<div id="graphical-methods" class="section level2" number="2.4">
+<h2><span class="header-section-number">2.4</span> Graphical methods</h2>
+<div id="visualization-recommendations" class="section level3" number="2.4.1">
+<h3><span class="header-section-number">2.4.1</span> Visualization recommendations</h3>
+<p>This book section presents several advantages of data visualization. Note that data analysis and graphing are iterative processes: Visualization = Graphing + Fitting + Graphing + Fitting + Graphing …</p>
+<ol style="list-style-type: decimal">
+<li><strong>Presentation vs. Exploration</strong>: Different communication purposes require different graphs. There is, for instance, a big <a href="http://www.theusrus.de/blog/presentation-vs-exploration/">difference between graphs for presentation and for data exploring</a>. The book’s text links to <a href="http://www.theusrus.de/blog/">Statistical Graphs and More</a> a blog on visualization by Martin Theus. There are – for instance – on the blog side column several links to interesting books by the blog author and other scientists I will mention here (but not include them in the bibliography of this book) for my further involvement with the visualization subject:</li>
+</ol>
+<div class="greybox">
+<p><strong>Some books on visualization topics</strong>
+- Cook, D., &amp; Swayne, D. F. (2007). Interactive and Dynamic Graphics for Data Analysis.
+- Theus, M., &amp; Urbanek, S. (2019). Interactive graphics for data analysis: Principles and examples.
+- Unwin, A., Theus, M., &amp; Hofmann, H. (2016). Graphics of Large Datasets: Visualizing a million. Springer-Verlag New York.</p>
+</div>
+<ol start="2" style="list-style-type: decimal">
+<li><strong>Different graphical methods</strong>: Frequencies of categorical variables are often best represented graphically using areas rather than as positions along a scale. Three examples are just illustrated with pictures. There is no R code because the images only serve as a reference for more detailed explanations in later chapters.</li>
+</ol>
+<p>I will link these three examples to more detailed web pages:</p>
+<ul>
+<li><a href="https://www.jmp.com/en_us/statistics-knowledge-portal/exploratory-data-analysis/mosaic-plot.html">mosaic plot</a> (a modified bar chart),</li>
+<li><a href="http://euclid.psych.yorku.ca/www/psy6136/R/output/berk-4fold.html">fourfold display</a>, and
+<a href="https://www.datanovia.com/en/lessons/inter-rater-agreement-chart-in-r/">agreement chart</a>.</li>
+</ul>
+<p>Details on these visualization methods are provided in later chapters.</p>
+<ol start="3" style="list-style-type: decimal">
+<li><p><strong>Effect ordering</strong>: Alphabetically sorted labels for ordered categories result in most of the time in nonsensical display. Therefore sort the data by the effects to be seen to facilitate comparison. This so-called “effect-order sorting” in combination with a colored representation is also possible with the data fields of the table itself.</p></li>
+<li><p><strong>Interactive and dynamic graphs</strong>: Graphics displayed in print form are necessarily static and fixed when they are designed and rendered as an image. Yet, recent developments in software, web technology, and media alternative to print have created the possibility to extend graphics in far more helpful and exciting ways for both presentation and analysis purposes.</p></li>
+</ol>
+<p><strong>Interactive graphics</strong> allow the viewer to directly manipulate the statistical and visual components of the graphical display. These range from</p>
+<ul>
+<li>graphical controls (sliders, selection boxes, and other widgets) to control details of analysis (e.g., a smoothing parameter) or graph (colors and other graphic details), to</li>
+<li>higher-level interaction, including zooming in or out, drilling down to a data subset, linking multiple displays, selecting terms in a model, and so forth.</li>
+</ul>
+<p>The substantial effect is that the analysis and/or display is immediately re-computed and updated visually.</p>
+<p>In addition, <strong>dynamic graphics</strong> use animation to show a series of views, like frames in a movie. Adding time as an additional dimension allows far more possibilities, for example showing a rotating view of a 3D graph or showing smooth transitions or interpolations from one view to another.</p>
+<p>There are now many packages in R providing interactive and dynamic plots. I will only mention them here, planning to look into the details of these packages. Note that the references are from 2015, meaning that there are now even more packages providing interactive graphics and animated plots. On the other hand, some of the mentioned packages may be outdated.</p>
+</div>
+<div id="recommended-packages" class="section level3" number="2.4.2">
+<h3><span class="header-section-number">2.4.2</span> Recommended Packages</h3>
+<div class="infobox">
+<p><strong>Packages for interactive and dynamic plots</strong></p>
+<ul>
+<li><a href="https://www.rdocumentation.org/packages/rggobi/versions/2.1.22">rggobi</a>: A command-line interface to ‘GGobi,’ an interactive and dynamic graphics package. ‘Rggobi’ complements the graphical user interface of ‘GGobi,’ providing a way to fluidly transition between analysis and exploration, as well as automating common tasks. But the package was removed from the CRAN repository. Older version are in the <a href="https://cran.r-project.org/src/contrib/Archive/rggobi/">archive</a>.
+– <a href="http://ggobi.org/">GGobi</a> is not an R package but an open-source visualization program for exploring high-dimensional data. It provides highly dynamic and interactive graphics such as tours and familiar graphics such as the scatterplot, bar chart, and parallel coordinates plots. Plots are interactive and linked with brushing and identification. GGobi is fully documented in the GGobi book <a href="http://ggobi.org/book.html">Interactive and Dynamic Graphics for Data Analysis</a>. There are many references on using GGobi with R, including code examples.</li>
+<li><a href="https://cran.r-project.org/web/packages/iplots/index.html">iPlots</a>: interactive graphics for R, <a href="http://www.iplots.org/">see the website</a> for detailed information and tutorials. (Last change: June 17, 2018.)</li>
+<li><a href="https://ramnathv.github.io/rCharts/">rCharts</a>: rCharts is an R package to create, customize and publish interactive javascript visualizations from R using a familiar lattice style plotting interface. See also the not related website <a href="https://r-charts.com/">R Charts</a> with the especially interesting <a href="https://r-charts.com/ggplot2/">ggplot2 section</a>.</li>
+<li><a href="https://cran.r-project.org/web/packages/googleVis/index.html">ggogleVis</a>: R interface to Google’s chart tools, allowing users to create interactive charts based on data frames. Charts are displayed locally via the R HTTP help server. A modern browser with an Internet connection is required. The data remains local and is not uploaded to Google. Several vignettes demonstrate the application.</li>
+<li><a href="https://cran.r-project.org/web/packages/ggvis/index.html">ggvis</a>: Interactive Grammar of Graphics. An implementation of an interactive grammar of graphics, taking the best parts of ‘ggplot2,’ combining them with the reactive framework of ‘shiny,’ and drawing web graphics using ‘vega.’ See website at <a href="https://ggvis.rstudio.com/" class="uri">https://ggvis.rstudio.com/</a>.</li>
+<li><a href="https://cran.r-project.org/web/packages/animation/index.html">animation</a>: A gallery of animations in statistics and utilities to create animations. See website <a href="https://yihui.org/animation/" class="uri">https://yihui.org/animation/</a>.</li>
+<li><a href="https://cran.r-project.org/web/packages/manipulate/index.html">manipulate</a>: Interactive Plots for RStudio. Interactive plotting functions for use within RStudio. The manipulate function accepts a plotting expression and a set of controls (e.g. slider, picker, checkbox, or button) used to dynamically change values within the expression. The expression is automatically re-executed when a value is changed using its corresponding control, and the plot is redrawn.</li>
+</ul>
+</div>
+<p>During searching the link of the above packages I came across two other visualization packages. I will list the for later detailed consulting:</p>
+<div class="infobox">
+<ul>
+<li><a href="https://cran.r-project.org/web/packages/apexcharter/index.html">apexcharter</a>: Create Interactive Chart with the JavaScript ‘ApexCharts’ Library. Provides an ‘htmlwidgets’ interface to ‘apexcharts.js.’ ‘Apexcharts’ is a modern JavaScript charting library to build interactive charts and visualizations with simple API. See ‘Apexcharts’ examples and documentation at <a href="https://apexcharts.com/" class="uri">https://apexcharts.com/</a>.</li>
+<li><a href="https://cran.r-project.org/web/packages/chronochrt/index.html">chronochrt</a>: Creating Chronological Charts with R. Easy way to draw chronological charts from tables, aiming to include an intuitive environment for anyone new to R. Includes’ ggplot2’ geoms and theme for chronological charts. There are two vignettes: <a href="https://cran.r-project.org/web/packages/chronochrt/vignettes/ChronochRt.html">ChronochRt</a> and <a href="https://cran.r-project.org/web/packages/chronochrt/vignettes/Examples.html">ChronochRt_examples</a>.</li>
+</ul>
+<p>Additionally, I want to mention:</p>
+<ul>
+<li><a href="https://cran.r-project.org/web/packages/plotly/index.html">plotly</a>: Create Interactive Web Graphics via ‘plotly.js’). Create interactive web graphics from ‘ggplot2’ graphs and/or a custom interface to the (MIT-licensed) JavaScript library ‘plotly.js’ inspired by the grammar of graphics. There is also a <a href="https://plotly-r.com/">book on plotly</a>.</li>
+</ul>
+<p><a href="https://cran.r-project.org/web/packages/autoplotly/index.html">autoplotly</a>: Automatic Generation of Interactive Visualizations for Statistical Results. Functionalities to automatically generate interactive visualizations for statistical results supported by <a href="https://cran.r-project.org/web/packages/ggfortify/index.html">ggfortify</a>, such as time series, PCA, clustering, and survival analysis, with ‘plotly.js’ <a href="https://plotly.com/" class="uri">https://plotly.com/</a> and ‘ggplot2’ style. The generated visualizations can also be easily extended using ‘ggplot2’ and ‘plotly’ syntax while staying interactive. See vignette <a href="https://cran.r-project.org/web/packages/autoplotly/vignettes/intro.html">Introduction to autoplotly package</a>.</p>
+</div>
+<div class="todobox">
+<ol style="list-style-type: decimal">
+<li>Investigate the above-mentioned packages</li>
+<li>Search for more graphic packages via the term ‘graph,’ ‘chart,’ or similar.</li>
+</ol>
+<p>It seems that getting an overview of visualization packages would be an essential but time-consuming task. I wonder why there is no <a href="https://cran.r-project.org/web/views/">CRAN task view</a> specialized in visualization.</p>
+</div>
+</div>
+<div id="data-und-models-plot" class="section level3" number="2.4.3">
+<h3><span class="header-section-number">2.4.3</span> Data und models plot</h3>
+<p><strong>Data plots</strong>:</p>
+<ol style="list-style-type: lower-alpha">
+<li>What do the data look like?</li>
+<li>Are there unusual features?</li>
+<li>What kinds of summaries would be helpful?</li>
+</ol>
+<p><strong>Model plots</strong>:</p>
+<ol style="list-style-type: lower-alpha">
+<li>What does the model “look” like? (plot predicted values);</li>
+<li>How does the model change when its parameters change? (plot competing models);</li>
+<li>How does the model change when the data is changed? (e.g., influence plots).</li>
+</ol>
+<p><strong>Data + Model plots</strong>:</p>
+<ol style="list-style-type: lower-alpha">
+<li>How well does a model fit the data?</li>
+<li>Does a model fit uniformly good or bad, or just good/bad in some regions?</li>
+<li>How can a model be improved?</li>
+<li>Model uncertainty: show confidence/prediction intervals or regions.</li>
+<li>Data support: where is data too “thin” to make a difference in competing models?</li>
+</ol>
+</div>
+</div>
+<div id="the-80-20-rule" class="section level2" number="2.5">
+<h2><span class="header-section-number">2.5</span> The 80-20-rule</h2>
+<ol style="list-style-type: decimal">
+<li>20% of your effort can generate 80% of your desired result in producing a given plot. (Pareto principle or 80-20 rule)</li>
+<li>80% of your effort may be required to produce the remaining 20% of a finished graph.</li>
+</ol>
+<div class="todobox">
+<p>In the labs part of the book, I found two interesting links:</p>
+<ul>
+<li><a href="https://www.biostat.wisc.edu/~kbroman/topten_worstgraphs/">The top ten worst graphs</a></li>
+<li><a href="https://www.r-graph-gallery.com/">The R Graph Gallery</a></li>
+</ul>
+<p>There are other R visualization gallery sites as well. Prominent to mention is here the <a href="https://shiny.rstudio.com/gallery/">shiny gallery</a>. I think it would pay the effort to search for other specialized pages on visualization.</p>
+</div>
+</div>
+<div id="visualization-of-distributions" class="section level2" number="2.6">
+<h2><span class="header-section-number">2.6</span> Visualization of distributions</h2>
+<p>There is a short mathematical resume about the most important distribution followed by a typical visualization. for this the function <code>expand.grid()</code> creates a data.frame with all the possible combinations of interest. The examples choose several successes out of row of trials. With one exception the graphs are not done with <strong>{ggplot2}</strong> but with lattice. But it should be easy to convert them with <code>ggplot()</code>.</p>
+<p>I did not do it, because during the first reading I just want to get an overview about the argumentation. Important however was the understanding of <code>expand.grid()</code> where I did some experiments. I added the description and typical applications of the different distributions to my diigo outliner on categorical data analysis.</p>
+<p>I also checked the replacement of <code>with()</code> with the <code>filter()</code> function from the <strong>{dplyr}</strong> package. It is easy done but <code>with()</code> returns numeric vector whereas <code>filter()</code> returns a data frame. I believe this difference is an advantage of <strong>{dplyr}</strong>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="introduction.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(mtcars, mpg[cyl <span class="sc">==</span> <span class="dv">8</span>  <span class="sc">&amp;</span>  disp <span class="sc">&gt;</span> <span class="dv">350</span>])</span></code></pre></div>
+<pre><code>## [1] 18.7 14.3 10.4 10.4 14.7 19.2 15.8</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="introduction.html#cb3-1" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">filter</span>(mtcars, cyl <span class="sc">==</span> <span class="dv">8</span> <span class="sc">&amp;</span> disp <span class="sc">&gt;</span> <span class="dv">350</span>) <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(mpg)</span></code></pre></div>
+<pre><code>##                      mpg
+## Hornet Sportabout   18.7
+## Duster 360          14.3
+## Cadillac Fleetwood  10.4
+## Lincoln Continental 10.4
+## Chrysler Imperial   14.7
+## Pontiac Firebird    19.2
+## Ford Pantera L      15.8</code></pre>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Friendly_Meyer_2015" class="csl-entry">
+Friendly, Michael, and David Meyer. 2015. <em>Discrete Data Analysis with <span>R</span>: Visualization and Modeling Techniques for Categorical and Count Data</em>. 1st ed. Chapman; Hall/CRC.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="working-with-categorical-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/petzi53/cdar/edit/master/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

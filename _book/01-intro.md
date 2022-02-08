@@ -290,9 +290,27 @@ I did not do it, because during the first reading I just want to get an overview
 
 I also checked the replacement of `with()` with the `filter()` function from the **{dplyr}** package. It is easy done but `with()` returns numeric vector whereas `filter()` returns a data frame. I believe this difference is an advantage of **{dplyr}**.
 
-```{r replace-with-function}
-with(mtcars, mpg[cyl == 8  &  disp > 350])
 
+```r
+with(mtcars, mpg[cyl == 8  &  disp > 350])
+```
+
+```
+## [1] 18.7 14.3 10.4 10.4 14.7 19.2 15.8
+```
+
+```r
 dplyr::filter(mtcars, cyl == 8 & disp > 350) |> dplyr::select(mpg)
+```
+
+```
+##                      mpg
+## Hornet Sportabout   18.7
+## Duster 360          14.3
+## Cadillac Fleetwood  10.4
+## Lincoln Continental 10.4
+## Chrysler Imperial   14.7
+## Pontiac Firebird    19.2
+## Ford Pantera L      15.8
 ```
 

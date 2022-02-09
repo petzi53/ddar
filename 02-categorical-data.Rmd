@@ -122,9 +122,204 @@ structable(UCB)
 
 ## A complex example
 
-> A good conversion exercise is the following complex example on TV viewing data. So I can check if I am able to provide the necessary R code to fulfil the requirements. I have to inspect it line per line and relace it with working code. To see the difference I will keep the old code as comments. 
+> A good conversion exercise is the following complex example on TV viewing data. So I can check if I am able to provide the necessary R code to fulfil the requirements. I have to inspect it line per line and relace it with working code. To see the difference I will keep the old code as comments. Also I wll describe my transforming action.
 
-> (I will do this another time… -- I have to separate the different steps with subtitles and comments about my changes.)
+
+### Dataset description
+
+Are you ready for a more complicated example that puts together a variety of the skills developed in this chapter? These skills are 
+
+(a) reading raw data, 
+(b) creating tables, 
+(c) assigning level names to factors and 
+(d) collapsing levels or variables for use in analysis. 
+
+For an illustration of these steps, we use the dataset `tv.dat`, supplied with the initial im- plementation of mosaic displays in R by Jay Emerson. In turn, they were derived from an early, compelling example of mosaic displays that illustrated the method with data on a large sample of TV viewers whose behavior had been recorded for the Neilsen ratings. This data set contains sample television audience data from Neilsen Media Research for the week starting November 6, 1995. 
+
+The data file, `tv.dat`, is stored in frequency form as a file with 825 rows and 5 columns. There is no header line in the file, so when we use `read.table()` below, the variables will be named `V1 – V5`. This data represents a 4-way table of size $5 × 11 × 5 × 3 = 825$ where the table variables are `V1 – V4`, and the cell frequency is read as `V5`. 
+
+The table variables are: 
+
+- `V1` --- values $1:5$ correspond to the days Monday–Friday; 
+- `V2` --- values $1:11$ correspond to the quarter-hour times $8:00$ pm through $10:30$ pm; 
+- `V3` --- values $1:5$ correspond to ABC, CBS, NBC, Fox, and non-network choices; 
+- `V4` --- values $1:3$ correspond to transition states: turn the television Off, Switch channels, or Persist in viewing the current channel.
+
+### Creating data frames and arrays 
+
+#### Package dataset {#package-dataset}
+
+There is a `TV` dataset in the **{vcdExtra}** package. To load it would be the easiest way to get the data. In that case you would not have to worry about data transformation because the dataset is already in the desired form.
+
+```{r dataset-import, collapse=TRUE}
+library(vcdExtra)
+
+data(TV)  # the easiest way, does not need data wrangling
+TV
+str(TV)
+```
+The data set `TV` comprises a 5 x 11 x 3 contingency table. But this is not the original dataset described under the subsection \@ref(package-dataset).
+
+"The original data, tv.dat, contains two additional networks: "Fox" and "Other", with small frequencies. These levels were removed in the current version. There is also a fourth factor, transition State transition (turn the television Off, Switch channels, or Persist in viewing the current channel). The TV data here includes only the Persist observations." (From the TV **{vcdExtra}** help file.)
+
+
+We therefore will go the hard way and import the `tv.dat` file as mentioned in the book. But viewing the above dataset gives you a good impression how the data should look at the end of the data wrangling process.
+
+
+
+::: {.bluebox}
+The **b**ook **v**ersion contains` bv-` in the chunk- and variable names. In contrast to my own version, which has my initials `pb-` in their designations.
+:::
+
+
+#### bv-import
+
+The provided R code in the [ch02.R file](http://ddar.datavis.ca/pages/Rcode/ch02.R) does not work. The book referenced the file `tv.dat` to the `doc/extdata` directory of **{vcdExtra}**. On my (macOS) installation the data is found also inside `extdata`, but `extdata` is on the highest level and therefore not a subdirectory of `doc`.
+
+
+```{r bv-import, collapse=TRUE}
+tv_data_bv <-
+    read.table(system.file(
+        "extdata", "tv.dat",   # without "doc" directory
+        package = "vcdExtra")
+        )
+
+# or use the RStudio File -> Import Dataset -> From text (base) … menu.
+
+str(tv_data_bv)
+head(tv_data_bv, 5)
+```
+
+```{r bv-colnames}
+TV_df <- tv_data_bv
+colnames(TV_df) <- c("Day", "Time", "Network", "State", "Freq")
+TV_df <- within(TV_df, {
+           Day <- factor(Day, 
+                         labels = c("Mon", "Tue", "Wed", "Thu", "Fri"))
+           Time <- factor(Time)
+           Network <- factor(Network)
+           State <- factor(State) 
+	 })
+```
+
+```{r}
+TV_xtabs <- xtabs(V5 ~ ., data = tv_data_bv)
+dimnames(TV_xtabs) <-
+    list(Day = c("Mon", "Tue", "Wed", "Thu", "Fri"),
+         Time = c("8:00", "8:15", "8:30", "8:45", "9:00", "9:15",
+                  "9:30", "9:45", "10:00", "10:15", "10:30"),
+         Network = c("ABC", "CBS", "NBC", "Fox", "Other"),
+         State = c("Off", "Switch", "Persist"))
+
+# TV_min <- TV_xtabs[,,1:3,]     # keep only ABC, CBS, NBC
+# TV_min <- TV_min[,,,3]       # keep only Persist -- now a 3 way table
+# structable(TV_min)
+
+
+TV2 <- as.data.frame(TV_xtabs, dim = c(5, 11, 5, 3))
+```
+
+
+
+
+#### pb-import
+
+
+I will use the `read_table()` function from the **{readr}** package to import the data into a [tibble](https://tibble.tidyverse.org/). 
+
+::: {.warningbox}
+Watch the difference between `bv` and `pb` version: The function `read.table()` (with a period) in `bv` is called from the **{base}** package, whereas `read_table()` (with an underscore) in `pb` is part of **{readr}** and has to be loaded as a library.
+:::
+
+```{r pb-import, collapse=TRUE}
+library(tidyverse) # contains {readr} and {tibble}
+
+tv_pb <-
+    read_fwf(system.file("extdata", "tv.dat",   # without the "doc" directory
+                         package = "vcdExtra"),
+        col_types = 'ffffi',
+        fwf_widths(c(2, 2, 2, 2, 2)
+    )) |>
+    rename(c(
+        Day = X1,
+        Time = X2,
+        Network = X3,
+        State = X4,
+        Freq = X5
+    )) |>
+    mutate(Day = fct_recode(
+        Day,
+        Mon = "1",
+        Tue = "2",
+        Wed = "3",
+        Thu = "4",
+        Fri = "5"
+    )) |>
+    mutate(
+        Time = fct_recode(
+            Time,
+            "8:00" = "1",
+            "8:15" = "2",
+            "8:30" = "3",
+            "8:45" = "4",
+            "9:00" = "5",
+            "9:15" = "6",
+            "9:30" = "7",
+            "9:45" = "8",
+            "10:00" = "9",
+            "10:15" = "10",
+            "10:30" = "11"
+        )
+    ) |>
+    mutate(Network = fct_recode(
+        Network,
+        "ABC" = "1",
+        "CBS" = "2",
+        "NBC" = "3",
+        "Fox" = "4",
+        "Other" = "5"
+    )) |>
+    mutate(State = fct_recode(
+        State,
+        "Off" = "1",
+        "Switch" = "2",
+        "Persist" = "3"
+    ))
+
+str(tv_pb)
+glimpse(tv_pb)
+head(tv_pb, 5)
+```
+
+Besides the variables' different naming schemes, we get a separate sixth column of a logical type where all values are `NA` (not available). I do not know where this extra empty column comes from.
+
+
+### Renaming variables (columns)
+
+We need to rename the variables, and converting the integer-coded factors V1 – V4 to R factors. 
+
+#### bv
+
+The lines below use the function `within()` to avoid having to use `TV.dat$Day <- factor(TV.dat$Day)` etc., and only supply labels for the first variable.
+
+```{r bv-rename-vars}
+TV_df <- tv_data_bv
+colnames(TV_df) <- c("Day", "Time", "Network", "State", "Freq")
+TV_df <- within(TV_df, {
+           Day <- factor(Day, 
+                         labels = c("Mon", "Tue", "Wed", "Thu", "Fri"))
+           Time <- factor(Time)
+           Network <- factor(Network)
+           State <- factor(State) 
+	 })
+```
+
+
+#### pb
+
+What happened with 6th column? Why is data of logical type?
+Rename variable and set correct data type during import!
+
 
 ```{r final-example, eval=FALSE}
 ### Check with the original example, TV viewing data, p. 58ff.

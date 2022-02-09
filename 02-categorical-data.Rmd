@@ -176,47 +176,48 @@ The **b**ook **v**ersion contains` bv-` in the chunk- and variable names. In con
 
 The provided R code in the [ch02.R file](http://ddar.datavis.ca/pages/Rcode/ch02.R) does not work. The book referenced the file `tv.dat` to the `doc/extdata` directory of **{vcdExtra}**. On my (macOS) installation the data is found also inside `extdata`, but `extdata` is on the highest level and therefore not a subdirectory of `doc`.
 
+You can also use the RStudio interactive menu: "File -> Import Dataset -> From text (base) …".
 
-```{r bv-import, collapse=TRUE}
-tv_data_bv <-
-    read.table(system.file(
-        "extdata", "tv.dat",   # without "doc" directory
-        package = "vcdExtra")
-        )
+In the next step we use `xtabs()` to do the cross-tabulation, using $V5$ as the frequency variable. `xtabs()` uses a formula interface.
 
-# or use the RStudio File -> Import Dataset -> From text (base) … menu.
+I HAVE XTABS TO EXPLAIN ABOVE UND ALSO NEED TO DISPLAY AN EXAMPLE. (Chapter 2.4.2, p.46 / 66)
 
-str(tv_data_bv)
-head(tv_data_bv, 5)
-```
+The third step attach names to the factors. There is no assignment necessary but the list has to be ordered.
 
-```{r bv-colnames}
-TV_df <- tv_data_bv
-colnames(TV_df) <- c("Day", "Time", "Network", "State", "Freq")
-TV_df <- within(TV_df, {
-           Day <- factor(Day, 
-                         labels = c("Mon", "Tue", "Wed", "Thu", "Fri"))
-           Time <- factor(Time)
-           Network <- factor(Network)
-           State <- factor(State) 
-	 })
-```
-
-```{r}
-TV_xtabs <- xtabs(V5 ~ ., data = tv_data_bv)
-dimnames(TV_xtabs) <-
-    list(Day = c("Mon", "Tue", "Wed", "Thu", "Fri"),
-         Time = c("8:00", "8:15", "8:30", "8:45", "9:00", "9:15",
-                  "9:30", "9:45", "10:00", "10:15", "10:30"),
-         Network = c("ABC", "CBS", "NBC", "Fox", "Other"),
-         State = c("Off", "Switch", "Persist"))
-
-# TV_min <- TV_xtabs[,,1:3,]     # keep only ABC, CBS, NBC
-# TV_min <- TV_min[,,,3]       # keep only Persist -- now a 3 way table
-# structable(TV_min)
+In summary the "old" approach is shorter and seems less complicated as the "new" tidy approach. EXPLANATION?? Look if there is with tv_pb the possibility to name the columns and levels immediately when importing the data file!
 
 
-TV2 <- as.data.frame(TV_xtabs, dim = c(5, 11, 5, 3))
+```{r tv-bv, collapse=TRUE}
+tv_bv <-
+    read.table(system.file("extdata", "tv.dat",   # without "doc" directory
+                           package = "vcdExtra"))
+
+tv_bv <- xtabs(V5 ~ ., data = tv_bv)
+
+dimnames(tv_bv) <-
+    list(
+        Day = c("Mon", "Tue", "Wed", "Thu", "Fri"), 
+        Time = c(
+            "8:00",
+            "8:15",
+            "8:30",
+            "8:45",
+            "9:00",
+            "9:15",
+            "9:30",
+            "9:45",
+            "10:00",
+            "10:15",
+            "10:30"
+        ),
+        Network = c("ABC", "CBS", "NBC", "Fox", "Other"),
+        State = c("Off", "Switch", "Persist")
+    )
+
+tv_bv <- as.data.frame(tv_bv, dim = c(5, 11, 5, 3))
+
+str(tv_bv)
+head(tv_bv, 5)
 ```
 
 

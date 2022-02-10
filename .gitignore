@@ -57,5 +57,5 @@ po/*~
 test-*
 
 ### always remove the following files
-_book/
+_book/*.*/
 _main.rds

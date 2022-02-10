@@ -34,7 +34,7 @@ tab_area <- locate_areas(file = f, page = 53)
 saveRDS(tab_area, "test-data/example-tab-area")
 ```
 
-```{r extract-area}
+```{r extract-area, collapse=TRUE}
 library(tidyverse)
 library(tabulizer)
 library(tabulizerjars)
@@ -88,32 +88,53 @@ I am going to use for this task the `UCBAdmissions` data from the base **{datase
 **UCBAdmissions**:The original structure of the table:
 
 ```{r print-standard-table}
-(UCB <- UCBAdmissions)
+UCB <- UCBAdmissions
+knitr::kable(UCB, caption = "Print contingency table with default print method.")
 ```
 
 
 **ftable()**:
 
 ```{r print-ftable}
-ftable(UCB)
+ftable(UCB, row.vars = 1:2)
 ```
 
 **ftable with formula method**: 
 
 ```{r print-ftable-formula}
-# ftable(UCB, row.vars = 1:2)      # same result
-ftable(Admit + Gender ~ Dept, data = UCB)   # formula method
+knitr::kable(ftable(Admit + Gender ~ Dept, data = UCB), 
+             caption = "Print contingency table with ftable() with formula method.")
 ```
+
+**xtabs with formula method**
+
+The `xtabs()` function allows you to create cross tabulations of data using formula style input. This typically works with case-form or frequency-form data supplied in a data frame or a matrix. The result is a contingency table in array format, whose dimensions are determined by the terms on the right side of the formula.
+
+```{r print-xtabs, collapse=TRUE}
+
+knitr::kable(xtabs(Freq ~ Gender + Admit, data = UCB), 
+             caption = "Print contingency table with xtabs().")
+
+knitr::kable(xtabs(Freq ~ ., data = UCB), 
+             caption = "Print another contingency table with xtabs().")
+ 
+
+
+```
+
+
 
 **as_tibble()**: 
 
 ```{r print-tibble}
-as_tibble(UCB)
+knitr::kable(as_tibble(UCB), 
+             caption = "Print contingency table as a tibble.")
+
 ```
 
 **structable()**:
 
-```{r print-structable}
+```{r print-structable, collapse=TRUE}
 library(vcd)
 structable(UCB)
 ```
@@ -145,13 +166,12 @@ The table variables are:
 - `V3` --- values $1:5$ correspond to ABC, CBS, NBC, Fox, and non-network choices; 
 - `V4` --- values $1:3$ correspond to transition states: turn the television Off, Switch channels, or Persist in viewing the current channel.
 
-### Creating data frames and arrays 
 
-#### Package dataset {#package-dataset}
+### Package dataset {#package-dataset}
 
 There is a `TV` dataset in the **{vcdExtra}** package. To load it would be the easiest way to get the data. In that case you would not have to worry about data transformation because the dataset is already in the desired form.
 
-```{r dataset-import, collapse=TRUE}
+```{r tv-data, collapse=TRUE}
 library(vcdExtra)
 
 data(TV)  # the easiest way, does not need data wrangling
@@ -172,19 +192,15 @@ The **b**ook **v**ersion contains` bv-` in the chunk- and variable names. In con
 :::
 
 
-#### bv-import
+### bv-import
 
-The provided R code in the [ch02.R file](http://ddar.datavis.ca/pages/Rcode/ch02.R) does not work. The book referenced the file `tv.dat` to the `doc/extdata` directory of **{vcdExtra}**. On my (macOS) installation the data is found also inside `extdata`, but `extdata` is on the highest level and therefore not a subdirectory of `doc`.
+**1. Step**: The provided R code in the [ch02.R file](http://ddar.datavis.ca/pages/Rcode/ch02.R) does not work. The book referenced the file `tv.dat` to the `doc/extdata` directory of **{vcdExtra}**. On my (macOS) installation the data is found also inside `extdata`, but `extdata` is on the highest level and therefore not a subdirectory of `doc`.
 
 You can also use the RStudio interactive menu: "File -> Import Dataset -> From text (base) …".
 
-In the next step we use `xtabs()` to do the cross-tabulation, using $V5$ as the frequency variable. `xtabs()` uses a formula interface.
+**2. Step**: In the next step we use `xtabs()` to do the cross-tabulation, using $V5$ as the frequency variable. `xtabs()` uses a formula interface as demonstrated in table \@ref(tab:print-xtabs).
 
-I HAVE XTABS TO EXPLAIN ABOVE UND ALSO NEED TO DISPLAY AN EXAMPLE. (Chapter 2.4.2, p.46 / 66)
-
-The third step attach names to the factors. There is no assignment necessary but the list has to be ordered.
-
-In summary the "old" approach is shorter and seems less complicated as the "new" tidy approach. EXPLANATION?? Look if there is with tv_pb the possibility to name the columns and levels immediately when importing the data file!
+**3. Step**: The third step attach names to the factors. There is no assignment necessary but the list has to be ordered.
 
 
 ```{r tv-bv, collapse=TRUE}
@@ -223,7 +239,7 @@ head(tv_bv, 5)
 
 
 
-#### pb-import
+### pb-import
 
 
 I will use the `read_table()` function from the **{readr}** package to import the data into a [tibble](https://tibble.tidyverse.org/). 
@@ -232,21 +248,17 @@ I will use the `read_table()` function from the **{readr}** package to import th
 Watch the difference between `bv` and `pb` version: The function `read.table()` (with a period) in `bv` is called from the **{base}** package, whereas `read_table()` (with an underscore) in `pb` is part of **{readr}** and has to be loaded as a library.
 :::
 
-```{r pb-import, collapse=TRUE}
+
+
+```{r tv-pb, collapse=TRUE}
 library(tidyverse) # contains {readr} and {tibble}
 
 tv_pb <-
     read_fwf(system.file("extdata", "tv.dat",   # without the "doc" directory
-                         package = "vcdExtra"),
+                package = "vcdExtra"),
         col_types = 'ffffi',
-        fwf_widths(c(2, 2, 2, 2, 2)
-    )) |>
-    rename(c(
-        Day = X1,
-        Time = X2,
-        Network = X3,
-        State = X4,
-        Freq = X5
+        fwf_widths(c(2, 2, 2, 2, 2),
+               col_names = c("Day", "Time", "Network", "State", "Freq")
     )) |>
     mutate(Day = fct_recode(
         Day,
@@ -287,96 +299,7 @@ tv_pb <-
         "Persist" = "3"
     ))
 
-str(tv_pb)
 glimpse(tv_pb)
 head(tv_pb, 5)
-```
-
-Besides the variables' different naming schemes, we get a separate sixth column of a logical type where all values are `NA` (not available). I do not know where this extra empty column comes from.
-
-
-### Renaming variables (columns)
-
-We need to rename the variables, and converting the integer-coded factors V1 – V4 to R factors. 
-
-#### bv
-
-The lines below use the function `within()` to avoid having to use `TV.dat$Day <- factor(TV.dat$Day)` etc., and only supply labels for the first variable.
-
-```{r bv-rename-vars}
-TV_df <- tv_data_bv
-colnames(TV_df) <- c("Day", "Time", "Network", "State", "Freq")
-TV_df <- within(TV_df, {
-           Day <- factor(Day, 
-                         labels = c("Mon", "Tue", "Wed", "Thu", "Fri"))
-           Time <- factor(Time)
-           Network <- factor(Network)
-           State <- factor(State) 
-	 })
-```
-
-
-#### pb
-
-What happened with 6th column? Why is data of logical type?
-Rename variable and set correct data type during import!
-
-
-```{r final-example, eval=FALSE}
-### Check with the original example, TV viewing data, p. 58ff.
-library(vcdExtra)
-## reading in the data
-tv_data <- TV
-str(tv_data)
-head(tv_data, 5)
-
-## tv_data <- read.table("C:/R/data/tv.dat")
-
-## tv_data <- read.table(file.choose())
-
-## creating factors within the data frame
-TV_df <- tv_data
-colnames(TV_df) <- c("Day", "Time", "Network", "State", "Freq")
-TV_df <- within(TV_df, {
-           Day <- factor(Day,
-                         labels = c("Mon", "Tue", "Wed", "Thu", "Fri"))
-           Time <- factor(Time)
-           Network <- factor(Network)
-           State <- factor(State)
-	 })
-
-## reshaping the table into a 4-way table
-TV <- array(tv_data[,5], dim = c(5, 11, 5, 3))
-dimnames(TV) <-
-    list(c("Mon", "Tue", "Wed", "Thu", "Fri"),
-         c("8:00", "8:15", "8:30", "8:45", "9:00", "9:15",
-           "9:30", "9:45", "10:00", "10:15", "10:30"),
-         c("ABC", "CBS", "NBC", "Fox", "Other"),
-         c("Off", "Switch", "Persist"))
-names(dimnames(TV)) <- c("Day", "Time", "Network", "State")
-
-## Creating the table using xtabs()
-TV <- xtabs(V5 ~ ., data = tv_data)
-dimnames(TV) <-
-    list(Day = c("Mon", "Tue", "Wed", "Thu", "Fri"),
-         Time = c("8:00", "8:15", "8:30", "8:45", "9:00", "9:15",
-                  "9:30", "9:45", "10:00", "10:15", "10:30"),
-         Network = c("ABC", "CBS", "NBC", "Fox", "Other"),
-         State = c("Off", "Switch", "Persist"))
-
-### SECTION ### 2.9.2. Subsetting and collapsing
-
-## subsetting data
-TV <- TV[,,1:3,]     # keep only ABC, CBS, NBC
-TV <- TV[,,,3]       # keep only Persist -- now a 3 way table
-structable(TV)
-
-## collapsing time labels
-TV2 <- collapse.table(TV,
-                      Time = c(rep("8:00-8:59", 4),
-                               rep("9:00-9:59", 4),
-			       rep("10:00-10:44", 3)))
-structable(Day ~ Time + Network, TV2)
-
 ```
 

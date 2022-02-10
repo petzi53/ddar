@@ -162,6 +162,10 @@ The book presents for demonstration logistic regression of dichotomous response 
 Again I do not understand fully how the model building is done. I am looking forward to reading chapter 7 of DDAR.
 :::
 
+
+
+
+
 ## Graphical methods
 
 ### Visualization recommendations
@@ -191,7 +195,7 @@ Details on these visualization methods are provided in later chapters.
 
 3. **Effect ordering**: Alphabetically sorted labels for ordered categories result in most of the time in nonsensical display. Therefore sort the data by the effects to be seen to facilitate comparison. This so-called "effect-order sorting" in combination with a colored representation is also possible with the data fields of the table itself.
 
-4. **Interactive and dynamic graphs**: Graphics displayed in print form are necessarily static and fixed when they are designed and rendered as an image. Yet, recent developments in software, web technology, and media alternative to print have created the possibility to extend graphics in far more helpful and exciting ways for both presentation and analysis purposes. 
+4. **Interactive and dynamic graphs**: Graphics displayed in print form are necessarily static and fixed when designed and rendered as an image. Yet, recent developments in software, web technology, and media alternative to print have created the possibility to extend graphics in far more helpful and exciting ways for both presentation and analysis purposes. 
 
 **Interactive graphics** allow the viewer to directly manipulate the statistical and visual components of the graphical display. These range from 
 
@@ -211,7 +215,7 @@ There are now many packages in R providing interactive and dynamic plots. I will
 **Packages for interactive and dynamic plots**
 
 - [rggobi](https://www.rdocumentation.org/packages/rggobi/versions/2.1.22): A command-line interface to 'GGobi', an interactive and dynamic graphics package. 'Rggobi' complements the graphical user interface of 'GGobi', providing a way to fluidly transition between analysis and exploration, as well as automating common tasks. But the package was removed from the CRAN repository. Older version are in the [archive](https://cran.r-project.org/src/contrib/Archive/rggobi/).
--- [GGobi](http://ggobi.org/) is not an R package but an open-source visualization program for exploring high-dimensional data. It provides highly dynamic and interactive graphics such as tours and familiar graphics such as the scatterplot, bar chart, and parallel coordinates plots. Plots are interactive and linked with brushing and identification. GGobi is fully documented in the GGobi book [Interactive and Dynamic Graphics for Data Analysis](http://ggobi.org/book.html). There are many references on using GGobi with R, including code examples.
+-- [GGobi](http://ggobi.org/) is not an R package but an open-source visualization program for exploring high-dimensional data. It provides highly dynamic and interactive graphics such as tours and familiar graphics like the scatterplot, bar chart, and parallel coordinates plots. Plots are interactive and linked with brushing and identification. GGobi is fully documented in the GGobi book [Interactive and Dynamic Graphics for Data Analysis](http://ggobi.org/book.html). There are many references on using GGobi with R, including code examples.
 - [iPlots](https://cran.r-project.org/web/packages/iplots/index.html): interactive graphics for R, [see the website](http://www.iplots.org/) for detailed information and tutorials. (Last change: June 17, 2018.)
 - [rCharts](https://ramnathv.github.io/rCharts/): rCharts is an R package to create, customize and publish interactive javascript visualizations from R using a familiar lattice style plotting interface. See also the not related website [R Charts](https://r-charts.com/) with the especially interesting [ggplot2 section](https://r-charts.com/ggplot2/).
 - [ggogleVis](https://cran.r-project.org/web/packages/googleVis/index.html): R interface to Google's chart tools, allowing users to create interactive charts based on data frames. Charts are displayed locally via the R HTTP help server. A modern browser with an Internet connection is required. The data remains local and is not uploaded to Google. Several vignettes demonstrate the application.
@@ -284,9 +288,9 @@ There are other R visualization gallery sites as well. Prominent to mention is h
 
 ## Visualization of distributions
 
-There is a short mathematical resume about the most important distribution followed by a typical visualization. for this the function `expand.grid()` creates a data.frame with all the possible combinations of interest. The examples choose several successes out of row of trials. With one exception the graphs are not done with **{ggplot2}** but with lattice. But it should be easy to convert them with `ggplot()`.
+There is a short mathematical resume about the most important distribution followed by a typical visualization. The function `expand.grid()` creates a data frame with all the possible combinations of interest. The examples choose several successes out of a row of trials. With one exception, the graphs are not done with **{ggplot2}** but with lattice. But it should be easy to convert them with `ggplot()`.
 
-I did not do it, because during the first reading I just want to get an overview about the argumentation. Important however was the understanding of `expand.grid()` where I did some experiments. I added the description and typical applications of the different distributions to my diigo outliner on categorical data analysis. 
+I did not do it because I just wanted to get an overview of the argumentation during the first reading. Essential, however, was the understanding of `expand.grid()` where I did some experiments. 
 
 I also checked the replacement of `with()` with the `filter()` function from the **{dplyr}** package. It is easy done but `with()` returns numeric vector whereas `filter()` returns a data frame. I believe this difference is an advantage of **{dplyr}**.
 

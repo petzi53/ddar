@@ -1,8 +1,3 @@
-tab:print-standard-table
-tab:print-ftable-formula
-tab:print-xtabs
-tab:print-tibble
-preface
 introduction
 overview
 what-is-categorical-data
@@ -26,10 +21,16 @@ generating-tables
 printing-tables
 collapsing-tables
 converting-tables
+table
+ftable
+ftable-with-formula
+xtabs
+structable
+tibble
 a-complex-example
 dataset-description
 package-dataset
 bv-import
 pb-import
+summary
 still-to-do
-url-your-book-url-like-httpsbookdown.orgyihuibookdown

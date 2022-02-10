@@ -13,13 +13,17 @@ link-citations: yes
 github-repo: petzi53/ddar
 ---
 
+
+# Preface {-}
+
 These are my excerpts and personal notes on the "Discrete Data Analysis with R" textbook by Michael Friendly and David Meyer.
 
-# Preface
-
-Friendly, M., & Meyer, D. (2015). Discrete Data Analysis with {R}:
+::: {.infobox}
+Friendly, M., & Meyer, D. (2015). Discrete Data Analysis with R:
 Visualization and Modeling Techniques for Categorical and Count Data
 (1st ed.). Chapman and Hall/CRC.
+:::
+
 
 My notes on [@Friendly_Meyer_2015] are part excerpt and part personal notes (comments). Most of the text are quotes
 taken directly from the book, which I have not marked especially.

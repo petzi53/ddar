@@ -1,21 +1,20 @@
-# Preface {-}
+# Excerpts on Discrete Data Analysis with R (ddar)
 
-These are my excerpts and personal notes on the "Discrete Data Analysis with R" textbook by Michael Friendly and David Meyer.
+These are my excerpts and personal notes on the "Discrete Data Analysis with R" textbook by Michael Friendly and David Meyer, abbreviated `ddar`.
 
-::: {.infobox}
+
 Friendly, M., & Meyer, D. (2015). Discrete Data Analysis with R:
 Visualization and Modeling Techniques for Categorical and Count Data
 (1st ed.). Chapman and Hall/CRC.
-:::
 
-## Motivation {-}
+## My motivation
 
-The two main purposes of my notes are 
+The two primary purposes of my notes are 
 
 1. fostering my learning about categorical data analysis by writing excerpts and experimenting with the code and
 2. converting base R code to its newer **{tidyverse}** alternative.
 
-R scripts and data files are taken from the [book
+R scripts and data files are taken from the [book's
 website](http://ddar.datavis.ca/). The book is supported directly by the R packages **{[vcd](http://cran.r-project.org/package=vcd)}** and **{[vcdExtra](http://cran.r-project.org/package=vcdExtra)}**, along with numerous other R packages. There is 
 
 - a [list of packages](http://ddar.datavis.ca/pages/using#r-packages) used 

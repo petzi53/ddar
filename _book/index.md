@@ -1,7 +1,7 @@
 ---
 title: "Discrete Data Analysis with R"
 author: "Peter Baumgartner"
-date: "2022-02-08"
+date: "2022-02-10"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]

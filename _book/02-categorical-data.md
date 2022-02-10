@@ -38,26 +38,14 @@ saveRDS(tab_area, "test-data/example-tab-area")
 
 ```r
 library(tidyverse)
-```
-
-```
 ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
-```
-
-```
 ## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
 ## ✓ tibble  3.1.6     ✓ dplyr   1.0.7
 ## ✓ tidyr   1.1.4     ✓ stringr 1.4.0
 ## ✓ readr   2.1.1     ✓ forcats 0.5.1
-```
-
-```
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()
-```
-
-```r
 library(tabulizer)
 library(tabulizerjars)
 
@@ -73,9 +61,6 @@ colnames(df) <- as.character(df[1, ])
 df <- df[-1,]
 df <- pivot_longer(df, 2:4, names_to = "party", values_to = "count")
 df
-```
-
-```
 ## # A tibble: 6 × 3
 ##   sex    party count
 ##   <chr>  <chr> <chr>
@@ -123,59 +108,47 @@ I am going to use for this task the `UCBAdmissions` data from the base **{datase
 
 
 ```r
-(UCB <- UCBAdmissions)
+UCB <- UCBAdmissions
+knitr::kable(UCB, caption = "Print contingency table with default print method.")
 ```
 
-```
-## , , Dept = A
-## 
-##           Gender
-## Admit      Male Female
-##   Admitted  512     89
-##   Rejected  313     19
-## 
-## , , Dept = B
-## 
-##           Gender
-## Admit      Male Female
-##   Admitted  353     17
-##   Rejected  207      8
-## 
-## , , Dept = C
-## 
-##           Gender
-## Admit      Male Female
-##   Admitted  120    202
-##   Rejected  205    391
-## 
-## , , Dept = D
-## 
-##           Gender
-## Admit      Male Female
-##   Admitted  138    131
-##   Rejected  279    244
-## 
-## , , Dept = E
-## 
-##           Gender
-## Admit      Male Female
-##   Admitted   53     94
-##   Rejected  138    299
-## 
-## , , Dept = F
-## 
-##           Gender
-## Admit      Male Female
-##   Admitted   22     24
-##   Rejected  351    317
-```
+
+
+Table: (\#tab:print-standard-table)Print contingency table with default print method.
+
+|Admit    |Gender |Dept | Freq|
+|:--------|:------|:----|----:|
+|Admitted |Male   |A    |  512|
+|Rejected |Male   |A    |  313|
+|Admitted |Female |A    |   89|
+|Rejected |Female |A    |   19|
+|Admitted |Male   |B    |  353|
+|Rejected |Male   |B    |  207|
+|Admitted |Female |B    |   17|
+|Rejected |Female |B    |    8|
+|Admitted |Male   |C    |  120|
+|Rejected |Male   |C    |  205|
+|Admitted |Female |C    |  202|
+|Rejected |Female |C    |  391|
+|Admitted |Male   |D    |  138|
+|Rejected |Male   |D    |  279|
+|Admitted |Female |D    |  131|
+|Rejected |Female |D    |  244|
+|Admitted |Male   |E    |   53|
+|Rejected |Male   |E    |  138|
+|Admitted |Female |E    |   94|
+|Rejected |Female |E    |  299|
+|Admitted |Male   |F    |   22|
+|Rejected |Male   |F    |  351|
+|Admitted |Female |F    |   24|
+|Rejected |Female |F    |  317|
 
 
 **ftable()**:
 
 
 ```r
-ftable(UCB)
+ftable(UCB, row.vars = 1:2)
 ```
 
 ```
@@ -191,62 +164,146 @@ ftable(UCB)
 
 
 ```r
-# ftable(UCB, row.vars = 1:2)      # same result
-ftable(Admit + Gender ~ Dept, data = UCB)   # formula method
+knitr::kable(ftable(Admit + Gender ~ Dept, data = UCB), 
+             caption = "Print contingency table with ftable() with formula method.")
 ```
 
+
+
+Table: (\#tab:print-ftable-formula)Print contingency table with ftable() with formula method.
+
+|   |         |       |    |
+|--:|--------:|------:|---:|
+|  A| Admitted|   Male| 512|
+|  B| Admitted|   Male| 353|
+|  C| Admitted|   Male| 120|
+|  D| Admitted|   Male| 138|
+|  E| Admitted|   Male|  53|
+|  F| Admitted|   Male|  22|
+|  A| Rejected|   Male| 313|
+|  B| Rejected|   Male| 207|
+|  C| Rejected|   Male| 205|
+|  D| Rejected|   Male| 279|
+|  E| Rejected|   Male| 138|
+|  F| Rejected|   Male| 351|
+|  A| Admitted| Female|  89|
+|  B| Admitted| Female|  17|
+|  C| Admitted| Female| 202|
+|  D| Admitted| Female| 131|
+|  E| Admitted| Female|  94|
+|  F| Admitted| Female|  24|
+|  A| Rejected| Female|  19|
+|  B| Rejected| Female|   8|
+|  C| Rejected| Female| 391|
+|  D| Rejected| Female| 244|
+|  E| Rejected| Female| 299|
+|  F| Rejected| Female| 317|
+
+**xtabs with formula method**
+
+The `xtabs()` function allows you to create cross tabulations of data using formula style input. This typically works with case-form or frequency-form data supplied in a data frame or a matrix. The result is a contingency table in array format, whose dimensions are determined by the terms on the right side of the formula.
+
+
+```r
+
+knitr::kable(xtabs(Freq ~ Gender + Admit, data = UCB), 
+             caption = "Print contingency table with xtabs().")
 ```
-##      Admit  Admitted        Rejected       
-##      Gender     Male Female     Male Female
-## Dept                                       
-## A                512     89      313     19
-## B                353     17      207      8
-## C                120    202      205    391
-## D                138    131      279    244
-## E                 53     94      138    299
-## F                 22     24      351    317
+
+
+
+Table: (\#tab:print-xtabs)Print contingency table with xtabs().
+
+|       | Admitted| Rejected|
+|:------|--------:|--------:|
+|Male   |     1198|     1493|
+|Female |      557|     1278|
+
+```r
+
+knitr::kable(xtabs(Freq ~ ., data = UCB), 
+             caption = "Print another contingency table with xtabs().")
 ```
+
+
+
+Table: (\#tab:print-xtabs)Print another contingency table with xtabs().
+
+|Admit    |Gender |Dept | Freq|
+|:--------|:------|:----|----:|
+|Admitted |Male   |A    |  512|
+|Rejected |Male   |A    |  313|
+|Admitted |Female |A    |   89|
+|Rejected |Female |A    |   19|
+|Admitted |Male   |B    |  353|
+|Rejected |Male   |B    |  207|
+|Admitted |Female |B    |   17|
+|Rejected |Female |B    |    8|
+|Admitted |Male   |C    |  120|
+|Rejected |Male   |C    |  205|
+|Admitted |Female |C    |  202|
+|Rejected |Female |C    |  391|
+|Admitted |Male   |D    |  138|
+|Rejected |Male   |D    |  279|
+|Admitted |Female |D    |  131|
+|Rejected |Female |D    |  244|
+|Admitted |Male   |E    |   53|
+|Rejected |Male   |E    |  138|
+|Admitted |Female |E    |   94|
+|Rejected |Female |E    |  299|
+|Admitted |Male   |F    |   22|
+|Rejected |Male   |F    |  351|
+|Admitted |Female |F    |   24|
+|Rejected |Female |F    |  317|
+
+
 
 **as_tibble()**: 
 
 
 ```r
-as_tibble(UCB)
+knitr::kable(as_tibble(UCB), 
+             caption = "Print contingency table as a tibble.")
 ```
 
-```
-## # A tibble: 24 × 4
-##    Admit    Gender Dept      n
-##    <chr>    <chr>  <chr> <dbl>
-##  1 Admitted Male   A       512
-##  2 Rejected Male   A       313
-##  3 Admitted Female A        89
-##  4 Rejected Female A        19
-##  5 Admitted Male   B       353
-##  6 Rejected Male   B       207
-##  7 Admitted Female B        17
-##  8 Rejected Female B         8
-##  9 Admitted Male   C       120
-## 10 Rejected Male   C       205
-## # … with 14 more rows
-```
+
+
+Table: (\#tab:print-tibble)Print contingency table as a tibble.
+
+|Admit    |Gender |Dept |   n|
+|:--------|:------|:----|---:|
+|Admitted |Male   |A    | 512|
+|Rejected |Male   |A    | 313|
+|Admitted |Female |A    |  89|
+|Rejected |Female |A    |  19|
+|Admitted |Male   |B    | 353|
+|Rejected |Male   |B    | 207|
+|Admitted |Female |B    |  17|
+|Rejected |Female |B    |   8|
+|Admitted |Male   |C    | 120|
+|Rejected |Male   |C    | 205|
+|Admitted |Female |C    | 202|
+|Rejected |Female |C    | 391|
+|Admitted |Male   |D    | 138|
+|Rejected |Male   |D    | 279|
+|Admitted |Female |D    | 131|
+|Rejected |Female |D    | 244|
+|Admitted |Male   |E    |  53|
+|Rejected |Male   |E    | 138|
+|Admitted |Female |E    |  94|
+|Rejected |Female |E    | 299|
+|Admitted |Male   |F    |  22|
+|Rejected |Male   |F    | 351|
+|Admitted |Female |F    |  24|
+|Rejected |Female |F    | 317|
 
 **structable()**:
 
 
 ```r
 library(vcd)
-```
-
-```
 ## Loading required package: grid
-```
-
-```r
 structable(UCB)
-```
-
-```
 ##               Gender Male Female
 ## Admit    Dept                   
 ## Admitted A            512     89
@@ -267,65 +324,233 @@ structable(UCB)
 
 ## A complex example
 
-> A good conversion exercise is the following complex example on TV viewing data. So I can check if I am able to provide the necessary R code to fulfil the requirements. I have to inspect it line per line and relace it with working code. To see the difference I will keep the old code as comments. 
+> A good conversion exercise is the following complex example on TV viewing data. So I can check if I am able to provide the necessary R code to fulfil the requirements. I have to inspect it line per line and relace it with working code. To see the difference I will keep the old code as comments. Also I wll describe my transforming action.
 
-> (I will do this another time… -- I have to separate the different steps with subtitles and comments about my changes.)
+
+### Dataset description
+
+Are you ready for a more complicated example that puts together a variety of the skills developed in this chapter? These skills are 
+
+(a) reading raw data, 
+(b) creating tables, 
+(c) assigning level names to factors and 
+(d) collapsing levels or variables for use in analysis. 
+
+For an illustration of these steps, we use the dataset `tv.dat`, supplied with the initial im- plementation of mosaic displays in R by Jay Emerson. In turn, they were derived from an early, compelling example of mosaic displays that illustrated the method with data on a large sample of TV viewers whose behavior had been recorded for the Neilsen ratings. This data set contains sample television audience data from Neilsen Media Research for the week starting November 6, 1995. 
+
+The data file, `tv.dat`, is stored in frequency form as a file with 825 rows and 5 columns. There is no header line in the file, so when we use `read.table()` below, the variables will be named `V1 – V5`. This data represents a 4-way table of size $5 × 11 × 5 × 3 = 825$ where the table variables are `V1 – V4`, and the cell frequency is read as `V5`. 
+
+The table variables are: 
+
+- `V1` --- values $1:5$ correspond to the days Monday–Friday; 
+- `V2` --- values $1:11$ correspond to the quarter-hour times $8:00$ pm through $10:30$ pm; 
+- `V3` --- values $1:5$ correspond to ABC, CBS, NBC, Fox, and non-network choices; 
+- `V4` --- values $1:3$ correspond to transition states: turn the television Off, Switch channels, or Persist in viewing the current channel.
+
+
+### Package dataset {#package-dataset}
+
+There is a `TV` dataset in the **{vcdExtra}** package. To load it would be the easiest way to get the data. In that case you would not have to worry about data transformation because the dataset is already in the desired form.
 
 
 ```r
-### Check with the original example, TV viewing data, p. 58ff.
 library(vcdExtra)
-## reading in the data
-tv_data <- TV
-str(tv_data)
-head(tv_data, 5)
+## Loading required package: gnm
+## 
+## Attaching package: 'vcdExtra'
+## The following object is masked from 'package:dplyr':
+## 
+##     summarise
 
-## tv_data <- read.table("C:/R/data/tv.dat")
+data(TV)  # the easiest way, does not need data wrangling
+TV
+## , , Network = ABC
+## 
+##            Time
+## Day         8:00 8:15 8:30 8:45 9:00 9:15 9:30 9:45 10:00 10:15 10:30
+##   Monday     146  151  156   83  325  350  386  340   352   280   278
+##   Tuesday    244  181  231  205  385  283  345  192   329   351   364
+##   Wednesday  233  161  194  156  339  264  279  140   237   228   203
+##   Thursday   174  183  197  181  187  198  211   86   110   122   117
+##   Friday     294  281  305  239  278  246  245  138   246   232   233
+## 
+## , , Network = CBS
+## 
+##            Time
+## Day         8:00 8:15 8:30 8:45 9:00 9:15 9:30 9:45 10:00 10:15 10:30
+##   Monday     337  293  304  233  311  251  241  164   252   265   272
+##   Tuesday    173  180  184  109  218  235  256  250   274   263   261
+##   Wednesday  158  126  207   59   98  103  122   86   109   105   110
+##   Thursday   196  185  195  104  106  116  116   47   102    84    84
+##   Friday     130  144  154   81  129  153  136  126   138   136   152
+## 
+## , , Network = NBC
+## 
+##            Time
+## Day         8:00 8:15 8:30 8:45 9:00 9:15 9:30 9:45 10:00 10:15 10:30
+##   Monday     263  219  236  140  226  235  239  246   279   263   283
+##   Tuesday    315  254  280  241  370  214  195  111   188   190   210
+##   Wednesday  134  146  166   66  194  230  264  143   274   289   306
+##   Thursday   515  463  472  477  590  473  446  349   649   705   747
+##   Friday     195  220  248  160  172  164  169   85   183   198   204
+str(TV)
+##  int [1:5, 1:11, 1:3] 146 244 233 174 294 151 181 161 183 281 ...
+##  - attr(*, "dimnames")=List of 3
+##   ..$ Day    : chr [1:5] "Monday" "Tuesday" "Wednesday" "Thursday" ...
+##   ..$ Time   : chr [1:11] "8:00" "8:15" "8:30" "8:45" ...
+##   ..$ Network: chr [1:3] "ABC" "CBS" "NBC"
+```
+The data set `TV` comprises a 5 x 11 x 3 contingency table. But this is not the original dataset described under the subsection \@ref(package-dataset).
 
-## tv_data <- read.table(file.choose())
+"The original data, tv.dat, contains two additional networks: "Fox" and "Other", with small frequencies. These levels were removed in the current version. There is also a fourth factor, transition State transition (turn the television Off, Switch channels, or Persist in viewing the current channel). The TV data here includes only the Persist observations." (From the TV **{vcdExtra}** help file.)
 
-## creating factors within the data frame
-TV_df <- tv_data
-colnames(TV_df) <- c("Day", "Time", "Network", "State", "Freq")
-TV_df <- within(TV_df, {
-           Day <- factor(Day,
-                         labels = c("Mon", "Tue", "Wed", "Thu", "Fri"))
-           Time <- factor(Time)
-           Network <- factor(Network)
-           State <- factor(State)
-	 })
 
-## reshaping the table into a 4-way table
-TV <- array(tv_data[,5], dim = c(5, 11, 5, 3))
-dimnames(TV) <-
-    list(c("Mon", "Tue", "Wed", "Thu", "Fri"),
-         c("8:00", "8:15", "8:30", "8:45", "9:00", "9:15",
-           "9:30", "9:45", "10:00", "10:15", "10:30"),
-         c("ABC", "CBS", "NBC", "Fox", "Other"),
-         c("Off", "Switch", "Persist"))
-names(dimnames(TV)) <- c("Day", "Time", "Network", "State")
+We therefore will go the hard way and import the `tv.dat` file as mentioned in the book. But viewing the above dataset gives you a good impression how the data should look at the end of the data wrangling process.
 
-## Creating the table using xtabs()
-TV <- xtabs(V5 ~ ., data = tv_data)
-dimnames(TV) <-
-    list(Day = c("Mon", "Tue", "Wed", "Thu", "Fri"),
-         Time = c("8:00", "8:15", "8:30", "8:45", "9:00", "9:15",
-                  "9:30", "9:45", "10:00", "10:15", "10:30"),
-         Network = c("ABC", "CBS", "NBC", "Fox", "Other"),
-         State = c("Off", "Switch", "Persist"))
 
-### SECTION ### 2.9.2. Subsetting and collapsing
 
-## subsetting data
-TV <- TV[,,1:3,]     # keep only ABC, CBS, NBC
-TV <- TV[,,,3]       # keep only Persist -- now a 3 way table
-structable(TV)
+::: {.bluebox}
+The **b**ook **v**ersion contains` bv-` in the chunk- and variable names. In contrast to my own version, which has my initials `pb-` in their designations.
+:::
 
-## collapsing time labels
-TV2 <- collapse.table(TV,
-                      Time = c(rep("8:00-8:59", 4),
-                               rep("9:00-9:59", 4),
-			       rep("10:00-10:44", 3)))
-structable(Day ~ Time + Network, TV2)
+
+### bv-import
+
+**1. Step**: The provided R code in the [ch02.R file](http://ddar.datavis.ca/pages/Rcode/ch02.R) does not work. The book referenced the file `tv.dat` to the `doc/extdata` directory of **{vcdExtra}**. On my (macOS) installation the data is found also inside `extdata`, but `extdata` is on the highest level and therefore not a subdirectory of `doc`.
+
+You can also use the RStudio interactive menu: "File -> Import Dataset -> From text (base) …".
+
+**2. Step**: In the next step we use `xtabs()` to do the cross-tabulation, using $V5$ as the frequency variable. `xtabs()` uses a formula interface as demonstrated in table \@ref(tab:print-xtabs).
+
+**3. Step**: The third step attach names to the factors. There is no assignment necessary but the list has to be ordered.
+
+
+
+```r
+tv_bv <-
+    read.table(system.file("extdata", "tv.dat",   # without "doc" directory
+                           package = "vcdExtra"))
+
+tv_bv <- xtabs(V5 ~ ., data = tv_bv)
+
+dimnames(tv_bv) <-
+    list(
+        Day = c("Mon", "Tue", "Wed", "Thu", "Fri"), 
+        Time = c(
+            "8:00",
+            "8:15",
+            "8:30",
+            "8:45",
+            "9:00",
+            "9:15",
+            "9:30",
+            "9:45",
+            "10:00",
+            "10:15",
+            "10:30"
+        ),
+        Network = c("ABC", "CBS", "NBC", "Fox", "Other"),
+        State = c("Off", "Switch", "Persist")
+    )
+
+tv_bv <- as.data.frame(tv_bv, dim = c(5, 11, 5, 3))
+
+str(tv_bv)
+## 'data.frame':	825 obs. of  5 variables:
+##  $ Day    : Factor w/ 5 levels "Mon","Tue","Wed",..: 1 2 3 4 5 1 2 3 4 5 ...
+##  $ Time   : Factor w/ 11 levels "8:00","8:15",..: 1 1 1 1 1 2 2 2 2 2 ...
+##  $ Network: Factor w/ 5 levels "ABC","CBS","NBC",..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ State  : Factor w/ 3 levels "Off","Switch",..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ Freq   : int  6 18 6 2 11 6 29 25 17 29 ...
+head(tv_bv, 5)
+##   Day Time Network State Freq
+## 1 Mon 8:00     ABC   Off    6
+## 2 Tue 8:00     ABC   Off   18
+## 3 Wed 8:00     ABC   Off    6
+## 4 Thu 8:00     ABC   Off    2
+## 5 Fri 8:00     ABC   Off   11
+```
+
+
+
+
+### pb-import
+
+
+I will use the `read_table()` function from the **{readr}** package to import the data into a [tibble](https://tibble.tidyverse.org/). 
+
+::: {.warningbox}
+Watch the difference between `bv` and `pb` version: The function `read.table()` (with a period) in `bv` is called from the **{base}** package, whereas `read_table()` (with an underscore) in `pb` is part of **{readr}** and has to be loaded as a library.
+:::
+
+
+
+
+```r
+library(tidyverse) # contains {readr} and {tibble}
+
+tv_pb <-
+    read_fwf(system.file("extdata", "tv.dat",   # without the "doc" directory
+                package = "vcdExtra"),
+        col_types = 'ffffi',
+        fwf_widths(c(2, 2, 2, 2, 2),
+               col_names = c("Day", "Time", "Network", "State", "Freq")
+    )) |>
+    mutate(Day = fct_recode(
+        Day,
+        Mon = "1",
+        Tue = "2",
+        Wed = "3",
+        Thu = "4",
+        Fri = "5"
+    )) |>
+    mutate(
+        Time = fct_recode(
+            Time,
+            "8:00" = "1",
+            "8:15" = "2",
+            "8:30" = "3",
+            "8:45" = "4",
+            "9:00" = "5",
+            "9:15" = "6",
+            "9:30" = "7",
+            "9:45" = "8",
+            "10:00" = "9",
+            "10:15" = "10",
+            "10:30" = "11"
+        )
+    ) |>
+    mutate(Network = fct_recode(
+        Network,
+        "ABC" = "1",
+        "CBS" = "2",
+        "NBC" = "3",
+        "Fox" = "4",
+        "Other" = "5"
+    )) |>
+    mutate(State = fct_recode(
+        State,
+        "Off" = "1",
+        "Switch" = "2",
+        "Persist" = "3"
+    ))
+
+glimpse(tv_pb)
+## Rows: 825
+## Columns: 5
+## $ Day     <fct> Mon, Tue, Wed, Thu, Fri, Mon, Tue, Wed, Thu, Fri, Mon, Tue, We…
+## $ Time    <fct> 8:00, 8:00, 8:00, 8:00, 8:00, 8:15, 8:15, 8:15, 8:15, 8:15, 8:…
+## $ Network <fct> ABC, ABC, ABC, ABC, ABC, ABC, ABC, ABC, ABC, ABC, ABC, ABC, AB…
+## $ State   <fct> Off, Off, Off, Off, Off, Off, Off, Off, Off, Off, Off, Off, Of…
+## $ Freq    <int> 6, 18, 6, 2, 11, 6, 29, 25, 17, 29, 10, 10, 12, 8, 7, 20, 24, …
+head(tv_pb, 5)
+## # A tibble: 5 × 5
+##   Day   Time  Network State  Freq
+##   <fct> <fct> <fct>   <fct> <int>
+## 1 Mon   8:00  ABC     Off       6
+## 2 Tue   8:00  ABC     Off      18
+## 3 Wed   8:00  ABC     Off       6
+## 4 Thu   8:00  ABC     Off       2
+## 5 Fri   8:00  ABC     Off      11
 ```
 

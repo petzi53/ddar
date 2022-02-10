@@ -1,3 +1,7 @@
+tab:print-standard-table
+tab:print-ftable-formula
+tab:print-xtabs
+tab:print-tibble
 preface
 introduction
 overview
@@ -23,4 +27,9 @@ printing-tables
 collapsing-tables
 converting-tables
 a-complex-example
+dataset-description
+package-dataset
+bv-import
+pb-import
 still-to-do
+url-your-book-url-like-httpsbookdown.orgyihuibookdown
